@@ -11,7 +11,11 @@ module.exports = {
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
     proxyTable: {
-      '/getpoints': { target: 'http://localhost:3000/', changeOrigin: true,pathRewrite: { "^/getpoints" : "/getpoints" }}
+      '/getpoints': { target: 'http://localhost:3000/', changeOrigin: true,pathRewrite: { "^/getpoints" : "/getpoints" }},
+      '/addpoint': {
+        target:'http://localhost:3000',
+        changeOrigin: true
+      }
     },
 
 // Various Dev Server settings

@@ -30,8 +30,18 @@ export default {
   },
   methods: {
     // this.getPointsFromServer -> this.$store.dispatch('getPointsFromServer')
-    ...mapActions(["getPointsFromServer"]),
-    ...mapMutations(["addPoint"])
+    ...mapActions(["getPointsFromServer","submitPointToServer"]),
+    // ...mapMutations(["addPoint"])
+    async addPoint(){
+      let json = {
+        author: 'jack',
+        text: 'dark night'
+      };
+      let result = await this.submitPointToServer(json);
+      if(result.status == 200 && result.data.n == 1){
+
+      }
+    }
   },
   created() {
     this.getPointsFromServer();

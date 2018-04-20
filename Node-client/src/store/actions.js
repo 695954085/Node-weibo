@@ -7,9 +7,13 @@ export default {
       commit(INITPOINTS, result.data);
     })
   },
-  submitPointToServer({ commit }, point) {
-    subimtPoint(point).then(result => {
-      commit(ADDPOINT, point);
-    })
+  async submitPointToServer({ commit }, point) {
+    // subimtPoint(point).then(result => {
+    //   commit(ADDPOINT, point);
+    //   return result;
+    // })
+    let result = await subimtPoint(point);
+    commit(ADDPOINT,point);
+    return result;
   }
 }

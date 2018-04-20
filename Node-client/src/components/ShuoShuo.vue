@@ -3,19 +3,38 @@
     <div class="shuoshuo__sidebar">
       <card></card>
     </div>
-    <div class="shuoshuo__main"></div>
+    <div class="shuoshuo__main">
+      <div>
+        {{points}}
+      </div>
+      <div>
+          <el-button @click="addPoint">默认按钮</el-button>
+      </div>
+    </div>
   </div>
 </template>
 <script>
 import card from "@/components/Card";
+import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
+
 export default {
   data() {
-    return {
-
-    }
+    return {};
   },
-  components:{
+  components: {
     card
+  },
+  computed: {
+    ...mapGetters(["pointCount"]),
+    ...mapState(["points"])
+  },
+  methods: {
+    // this.getPointsFromServer -> this.$store.dispatch('getPointsFromServer')
+    ...mapActions(["getPointsFromServer"]),
+    ...mapMutations(["addPoint"])
+  },
+  created() {
+    this.getPointsFromServer();
   }
 };
 </script>

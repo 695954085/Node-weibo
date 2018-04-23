@@ -4,17 +4,13 @@
       <card></card>
     </div>
     <div class="shuoshuo__main">
-      <div>
-        {{points}}
-      </div>
-      <div>
-          <el-button @click="addPoint">默认按钮</el-button>
-      </div>
+      <comment></comment>
     </div>
   </div>
 </template>
 <script>
 import card from "@/components/Card";
+import comment from "@/components/Comment";
 import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 
 export default {
@@ -22,7 +18,7 @@ export default {
     return {};
   },
   components: {
-    card
+    card,comment
   },
   computed: {
     ...mapGetters(["pointCount"]),
@@ -30,16 +26,15 @@ export default {
   },
   methods: {
     // this.getPointsFromServer -> this.$store.dispatch('getPointsFromServer')
-    ...mapActions(["getPointsFromServer","submitPointToServer"]),
+    ...mapActions(["getPointsFromServer", "submitPointToServer"]),
     // ...mapMutations(["addPoint"])
-    async addPoint(){
+    async addPoint() {
       let json = {
-        author: 'jack',
-        text: 'dark night'
+        author: "jack",
+        text: "dark night"
       };
       let result = await this.submitPointToServer(json);
-      if(result.status == 200 && result.data.n == 1){
-
+      if (result.status == 200 && result.data.n == 1) {
       }
     }
   },

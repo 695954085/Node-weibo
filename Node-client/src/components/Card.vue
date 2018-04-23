@@ -12,15 +12,16 @@
   </div>
 </template>
 <script>
+import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      user: {
-        userName: ""
-      },
       // input搜索框
       search: ""
     };
+  },
+  computed: {
+    ...mapState(["user"])
   }
 };
 </script>

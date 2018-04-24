@@ -11,4 +11,6 @@ app.post('/addpoint',router.addPointFromClient);
 
 app.get('/getauthorinf',router.getAuthorInf);
 
+app.post('/addcomment',router.addComment);
+
 app.listen(3000);

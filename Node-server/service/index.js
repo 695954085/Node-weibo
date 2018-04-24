@@ -21,6 +21,8 @@
 // }
 
 const User = require('../model/User');
+const Point = require('../model/Point');
+const ObjectId = require('mongodb').ObjectID;
 
 //通过_id得到user
 exports.getAuthorInf = function (_id, callback) {
@@ -33,4 +35,44 @@ exports.getAuthorInf = function (_id, callback) {
   });
 }
 
+//得到所有的points
+exports.getPoints = function ({ }, callback) {
+  Point.find({}, (err, res) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+    callback(null, res);
+  })
+}
 
+//添加point
+exports.addPoint = function (point, callback) {
+  let pointInstant = new Point(point);
+  pointInstant.save(function (err, pointinstant) {
+    if (err) {
+      callback(err);
+      return;
+    }
+    callback(null, pointinstant);
+  })
+}
+
+// 增加评论接口
+exports.addComment = function (_id, comment, callback) {
+  Point.findOne({ _id: ObjectId(_id) }, (err, point) => {
+    if (err) {
+      callback(err);
+      return;
+    }
+    // 得到一个point
+    point.comments.push(comment);
+    point.save(function (err, res) {
+      if (err) {
+        callback(err);
+        return;
+      }
+      callback(null, res);
+    })
+  })
+}

@@ -1,5 +1,5 @@
 const db = require('../model');
-const { getPoints, addPoint, getAuthorInf } = require('../service');
+const { getPoints, addPoint, getAuthorInf, addComment } = require('../service');
 const formidable = require('formidable');
 
 exports.showIndex = (req, res, next) => {
@@ -7,7 +7,7 @@ exports.showIndex = (req, res, next) => {
 }
 
 exports.getPointsFromServer = (req, res, next) => {
-  getPoints('points', {}, (err, docs) => {
+  getPoints({}, (err, docs) => {
     if (err) {
       res.send({
         code: 500,
@@ -22,7 +22,8 @@ exports.getPointsFromServer = (req, res, next) => {
 exports.addPointFromClient = (req, res, next) => {
   let form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
-    addPoint('points', fields, (err, result) => {
+    fields.date = new Date(fields.date);
+    addPoint(fields, (err, result) => {
       if (err) {
         res.send({
           code: 500,
@@ -49,4 +50,24 @@ exports.getAuthorInf = (req, res, next) => {
       }
     })
   });
+}
+
+// 添加一个增加评论接口
+exports.addComment = function (req, res, next) {
+  let form = new formidable.IncomingForm();
+  form.parse(req, function (err, fields, files) {
+    // 获取point的_id
+    let _id = fields._id;
+    delete fields._id;
+    addComment(_id, fields, function (err, res) {
+      if (err) {
+       res.sned({
+         code: 500,
+         msg:"服务器内部异常"
+       })
+        return;
+      }
+      res.send(res);
+    })
+  })
 }

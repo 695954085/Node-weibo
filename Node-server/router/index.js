@@ -1,5 +1,5 @@
 const db = require('../model');
-const { getPoints, addPoint } = require('../service');
+const { getPoints, addPoint, getAuthorInf } = require('../service');
 const formidable = require('formidable');
 
 exports.showIndex = (req, res, next) => {
@@ -23,12 +23,28 @@ exports.addPointFromClient = (req, res, next) => {
   let form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
     addPoint('points', fields, (err, result) => {
-      if(err){
+      if (err) {
         res.send({
-          code:500,
-          msg:'服务器异常'
+          code: 500,
+          msg: '服务器异常'
         })
-      }else{
+      } else {
+        res.send(result);
+      }
+    })
+  });
+}
+
+exports.getAuthorInf = (req, res, next) => {
+  let form = new formidable.IncomingForm();
+  form.parse(req, function (err, fields, files) {
+    getAuthorInf(fields._id, (err, result) => {
+      if (err) {
+        res.send({
+          code: 500,
+          msg: "服务器异常"
+        })
+      } else {
         res.send(result);
       }
     })

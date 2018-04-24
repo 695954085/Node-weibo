@@ -1,22 +1,55 @@
 <template>
   <div class="SS-cardwrap">
-      <div class="SS-cardwrap__content">
-          <img src="" alt="" class="content__avatar">
-          <div class="content__detail"></div>
-          <div class="content__like"></div>
-      </div>
-      <div class="SS-cardwrap__handle">
+    <div class="SS-cardwrap__content">
+      <img :src="currentAuthor.img" :alt="currentAuthor.userName" class="content__avatar">
+      <div class="content__detail">{{currentPoint.text}}</div>
+      <div class="content__like">{{likeCount}}</div>
+    </div>
+    <div class="SS-cardwrap__handle">
 
-      </div>
+    </div>
   </div>
 </template>
 <script>
+import { mapActions, mapState, mapGetters } from "vuex";
+import { requestAuthorInf } from "../api";
+
 export default {
-  data(){
-      return{
-          
+  data() {
+    return {
+      currentAuthor: {
+        userName: "",
+        // 默认的头像
+        img: "/img/logo.png"
+      },
+      // 当前说说
+      currentPoint: {}
+    };
+  },
+  props: ["index"],
+  methods: {},
+  computed: {
+    ...mapState(["points"]),
+    likeCount() {
+      return this.currentPoint.like.length;
+    }
+  },
+  methods: {
+    async getCurrentAuthor() {
+      let result = await requestAuthorInf({
+        authorId: this.currentPoint.author
+      });
+      if (result.status == 200) {
+        this.currentAuthor = result.data;
       }
+    }
+  },
+  created() {},
+  mounted() {
+    this.currentPoint = this.points[this.index];
+    // 通过这个point得到currentAuthor
+    this.getCurrentAuthor();
   }
-}
+};
 </script>
-https://weibo.com/u/6331262481?is_all=1#_loginLayer_1524494850523
+// https://weibo.com/u/6331262481?is_all=1#_loginLayer_1524494850523

@@ -1,10 +1,10 @@
-import { INITPOINTS,ADDPOINT } from './mutation-types'
+import { INITPOINTS, ADDPOINT, GETPOINT } from './mutation-types'
 
 export default {
   [INITPOINTS](state, points) {
     state.points.push(...points);
   },
-  [ADDPOINT](state,point){
+  [ADDPOINT](state, point) {
     state.points.push(point);
   }
 }

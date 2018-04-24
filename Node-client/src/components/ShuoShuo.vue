@@ -10,7 +10,6 @@
 </template>
 <script>
 import card from "@/components/Card";
-import comment from "@/components/Comment";
 import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 
 export default {
@@ -18,7 +17,7 @@ export default {
     return {};
   },
   components: {
-    card,comment
+    card
   },
   computed: {
     ...mapGetters(["pointCount"]),
@@ -34,8 +33,6 @@ export default {
         text: "dark night"
       };
       let result = await this.submitPointToServer(json);
-      if (result.status == 200 && result.data.n == 1) {
-      }
     }
   },
   created() {

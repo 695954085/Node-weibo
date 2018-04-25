@@ -13,4 +13,8 @@ app.get('/getauthorinf',router.getAuthorInf);
 
 app.post('/addcomment',router.addComment);
 
+app.post('/addlike',router.addLike);
+
+app.post('/getsomeonepoint',router.getSomeOnePoint);
+
 app.listen(3000);

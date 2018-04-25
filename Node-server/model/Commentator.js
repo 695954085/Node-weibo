@@ -1,11 +1,11 @@
-const mongoose = require('mongoose'); 
+// const mongoose = require('mongoose'); 
 
-const CommentatorSchema = new mongoose.Schema({
-  userName: String,
-  text: String,
-  date: Date
-});
+// const CommentatorSchema = new mongoose.Schema({
+//   userName: String,
+//   text: String,
+//   date: Date
+// });
 
-exports.CommentatorSchema = CommentatorSchema;
+// exports.CommentatorSchema = CommentatorSchema;
 
-const Commentator = mongoose.model('')
+// const Commentator = mongoose.model('')

@@ -1,5 +1,5 @@
 const db = require('../model');
-const { getPoints, addPoint, getAuthorInf, addComment } = require('../service');
+const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint } = require('../service');
 const formidable = require('formidable');
 
 exports.showIndex = (req, res, next) => {
@@ -59,15 +59,53 @@ exports.addComment = function (req, res, next) {
     // 获取point的_id
     let _id = fields._id;
     delete fields._id;
-    addComment(_id, fields, function (err, res) {
+    addComment(_id, fields, function (err, result) {
       if (err) {
-       res.sned({
-         code: 500,
-         msg:"服务器内部异常"
-       })
+        console.log(err);
+        res.send({
+          code: 500,
+          msg: "服务器内部异常"
+        })
         return;
       }
-      res.send(res);
+      res.send(result);
     })
   })
+}
+
+// 添加一个增加point的赞的接口
+exports.addLike = function (req, res, next) {
+  let form = new formidable.IncomingForm();
+  form.parse(req, function (err, fields, files) {
+    // 获取point的_id
+    let _id = fields._id;
+    // delete fields._id;
+    addLike(_id, fields.userName, (err, result) => {
+      if (err) {
+        res.send({
+          code: 500,
+          msg: err.message
+        })
+      }
+      res.send(result);
+    });
+  });
+}
+
+//获取某人的point
+exports.getSomeOnePoint = function (req, res, next) {
+  let form = new formidable.IncomingForm();
+  form.parse(req, function (err, fields, files) {
+    // 获取aid
+    let aid = fields.aid;
+    getSomeOnePoint(aid, function (err, points) {
+      if(err){
+        res.send({
+          code: 500,
+          msg: "服务器内部异常"
+        })
+      }
+      res.send(points);
+    })
+  });
 }

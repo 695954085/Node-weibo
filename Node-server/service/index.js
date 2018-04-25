@@ -75,4 +75,46 @@ exports.addComment = function (_id, comment, callback) {
       callback(null, res);
     })
   })
+
+  // ---------旧处理办法----------
+  // Point.update({ _id: ObjectId(_id) }, {
+  //   $push: {
+  //     "comments": comment
+  //   }
+  // }, function (err, result) {
+  //   if (err) {
+  //     callback(err);
+  //     return;
+  //   }
+  //   callback(null, result);
+  // });
+}
+
+// 添加评论赞的功能
+exports.addLike = function (_id, like, callback) {
+  Point.findOne({ _id: ObjectId(_id) }, function (err, result) {
+    if (err) {
+      callback(err);
+      return;
+    }
+    result.like.push(like);
+    result.save(function (err, newResult) {
+      if (err) {
+        callback(err);
+        return;
+      }
+      callback(null, newResult);
+    });
+  });
+}
+
+// 获取某个人的point
+exports.getSomeOnePoint = function (aid, callback) {
+  Point.find({ aid: aid }, null, { sort: { date: 1 } }, function (err, points) {
+    if (err) {
+      callback(err);
+      return;
+    }
+    callback(null, points);
+  })
 }

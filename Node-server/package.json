@@ -11,6 +11,7 @@
   "license": "ISC",
   "dependencies": {
     "express": "^4.16.3",
+    "express-session": "^1.15.6",
     "formidable": "^1.2.1",
     "gm": "^1.23.1",
     "mongodb": "^3.0.7",

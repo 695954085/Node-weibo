@@ -6,6 +6,7 @@ exports.showIndex = (req, res, next) => {
 
 }
 
+// 得到所有的point
 exports.getPointsFromServer = (req, res, next) => {
   getPoints({}, (err, docs) => {
     if (err) {
@@ -19,6 +20,7 @@ exports.getPointsFromServer = (req, res, next) => {
   })
 }
 
+// 增加point评论
 exports.addPointFromClient = (req, res, next) => {
   let form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
@@ -36,6 +38,7 @@ exports.addPointFromClient = (req, res, next) => {
   });
 }
 
+// 得到point的作者信息
 exports.getAuthorInf = (req, res, next) => {
   let form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
@@ -99,13 +102,37 @@ exports.getSomeOnePoint = function (req, res, next) {
     // 获取aid
     let aid = fields.aid;
     getSomeOnePoint(aid, function (err, points) {
-      if(err){
+      if (err) {
         res.send({
           code: 500,
           msg: "服务器内部异常"
         })
+        return;
       }
       res.send(points);
     })
   });
+}
+
+// 登录接口
+exports.doLogin = function (req, res, next) {
+  let form = new formidable.IncomingForm();
+  form.parse(req, function (err, fields, files) {
+    doLogin(fields, function (err, user) {
+      if (err) {
+        res.send({
+          code: 500,
+          msg: "服務器內部异常"
+        })
+        return;
+      }
+      delete user.password;
+      req.session.user = user;
+      res.send({
+        code: 200,
+        user: user,
+        msg: "服务器内部异常"
+      })
+    })
+  })
 }

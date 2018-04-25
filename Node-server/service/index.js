@@ -121,11 +121,11 @@ exports.getSomeOnePoint = function (aid, callback) {
 
 // 判断登录判断
 exports.doLogin = function (user, callback) {
-  User.findOne(user, (err, result){
+  User.findOne(user, (err, result) => {
     if (err) {
       callback(err);
       return;
     }
-    callback(null, err);
+    callback(null, result);
   })
 }

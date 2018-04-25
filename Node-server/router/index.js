@@ -1,5 +1,5 @@
 const db = require('../model');
-const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint } = require('../service');
+const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint, doLogin } = require('../service');
 const formidable = require('formidable');
 
 exports.showIndex = (req, res, next) => {
@@ -126,11 +126,15 @@ exports.doLogin = function (req, res, next) {
         })
         return;
       }
-      delete user.password;
+      // delete user.password;
+      // console.log(user);
       req.session.user = user;
       res.send({
         code: 200,
-        user: user,
+        user: {
+          userName:user.userName,
+          img: user.img
+        },
         msg: "服务器内部异常"
       })
     })

@@ -1,6 +1,7 @@
 const db = require('../model');
-const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint, doLogin } = require('../service');
+const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint, doLogin, doRegist } = require('../service');
 const formidable = require('formidable');
+const createError = require('http-errors')
 
 exports.showIndex = (req, res, next) => {
 
@@ -10,10 +11,11 @@ exports.showIndex = (req, res, next) => {
 exports.getPointsFromServer = (req, res, next) => {
   getPoints({}, (err, docs) => {
     if (err) {
-      res.send({
-        code: 500,
-        msg: '服务器异常'
-      });
+      // res.send({
+      //   code: 500,
+      //   msg: '服务器异常'
+      // });
+      next(createError(500, err));
     } else {
       res.send(docs);
     }
@@ -27,10 +29,11 @@ exports.addPointFromClient = (req, res, next) => {
     fields.date = new Date(fields.date);
     addPoint(fields, (err, result) => {
       if (err) {
-        res.send({
-          code: 500,
-          msg: '服务器异常'
-        })
+        // res.send({
+        //   code: 500,
+        //   msg: '服务器异常'
+        // })
+        next(createError(500, err));
       } else {
         res.send(result);
       }
@@ -44,10 +47,11 @@ exports.getAuthorInf = (req, res, next) => {
   form.parse(req, function (err, fields, files) {
     getAuthorInf(fields._id, (err, result) => {
       if (err) {
-        res.send({
-          code: 500,
-          msg: "服务器异常"
-        })
+        // res.send({
+        //   code: 500,
+        //   msg: "服务器异常"
+        // })
+        next(createError(500, err));
       } else {
         res.send(result);
       }
@@ -64,11 +68,12 @@ exports.addComment = function (req, res, next) {
     delete fields._id;
     addComment(_id, fields, function (err, result) {
       if (err) {
-        console.log(err);
-        res.send({
-          code: 500,
-          msg: "服务器内部异常"
-        })
+        // console.log(err);
+        // res.send({
+        //   code: 500,
+        //   msg: "服务器内部异常"
+        // })
+        next(createError(500, err));
         return;
       }
       res.send(result);
@@ -85,10 +90,11 @@ exports.addLike = function (req, res, next) {
     // delete fields._id;
     addLike(_id, fields.userName, (err, result) => {
       if (err) {
-        res.send({
-          code: 500,
-          msg: err.message
-        })
+        // res.send({
+        //   code: 500,
+        //   msg: err.message
+        // })
+        next(createError(500, err));
       }
       res.send(result);
     });
@@ -103,10 +109,11 @@ exports.getSomeOnePoint = function (req, res, next) {
     let aid = fields.aid;
     getSomeOnePoint(aid, function (err, points) {
       if (err) {
-        res.send({
-          code: 500,
-          msg: "服务器内部异常"
-        })
+        // res.send({
+        //   code: 500,
+        //   msg: "服务器内部异常"
+        // })
+        next(createError(500, err));
         return;
       }
       res.send(points);
@@ -120,23 +127,47 @@ exports.doLogin = function (req, res, next) {
   form.parse(req, function (err, fields, files) {
     doLogin(fields, function (err, user) {
       if (err) {
-        res.send({
-          code: 500,
-          msg: "服務器內部异常"
-        })
+        // res.send({
+        //   code: 500,
+        //   msg: "服務器內部异常"
+        // })
+        next(createError(500, err));
         return;
       }
       // delete user.password;
       // console.log(user);
-      req.session.user = user;
+      // 
+      req.session.userName = user.userName;
       res.send({
         code: 200,
         user: {
-          userName:user.userName,
+          userName: user.userName,
           img: user.img
         },
         msg: "服务器内部异常"
       })
     })
   })
+}
+
+// 註冊接口
+exports.doRegist = function (req, res, next) {
+  let form = new formidable.IncomingForm();
+  form.parse(req, function (err, fields, files) {
+    if (err) {
+      next(createError(500, err));
+      return;
+    }
+    doRegist(fields, function (err, user) {
+      if (err) {
+        next(createError(500, err));
+        return;
+      }
+      req.session.userName = user.userName;
+      res.send({
+        code: 200,
+        isLogin: true // 注册成功
+      })
+    })
+  });
 }

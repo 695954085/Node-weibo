@@ -129,3 +129,14 @@ exports.doLogin = function (user, callback) {
     callback(null, result);
   })
 }
+
+exports.doRegist = function (fields, callback) {
+  let user = new User(fields);
+  user.save(function (err, userInstance) {
+    if (err) {
+      callback(err);
+      return;
+    }
+    callback(null, userInstance);
+  });
+}

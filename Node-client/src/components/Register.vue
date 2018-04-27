@@ -10,6 +10,9 @@
     <el-form-item>
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">注册</el-button>
     </el-form-item>
+    <div class="to-login">
+      <span class="login__content" @click="toLogin">login</span>
+    </div>
   </el-form>
 </template>
 
@@ -57,11 +60,15 @@ export default {
           });
         }
       });
+    },
+    toLogin() {
+      this.$router.push("/login");
     }
   }
 };
 </script>
-<style scoped>
+<style scoped lang='scss'>
+@import "~element-ui/packages/theme-chalk/src/common/var";
 .login-container {
   border-radius: 5px;
   margin: 180px auto;
@@ -80,6 +87,27 @@ export default {
 
 .login-container .remember {
   margin: 0 0 35px 0;
+  display: block;
+}
+
+.to-login {
+  padding-top: 5px;
+  text-align: right;
+
+  .login__content {
+    color: $--color-primary;
+    cursor: pointer;
+    &:hover {
+      color: $--color-warning;
+    }
+    &.is-active {
+      text-decoration-line: underline;
+    }
+  }
+}
+
+.item__button {
+  margin-bottom: 10px;
 }
 </style>
 

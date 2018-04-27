@@ -8,9 +8,12 @@
       <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
     </el-form-item>
     <el-checkbox v-model="checked" checked class="remember">记住密码</el-checkbox>
-    <el-form-item>
+    <el-form-item class='item__button'>
       <el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit" :loading="logining">登录</el-button>
     </el-form-item>
+    <div class="to-register">
+      <span class="register__content" @click="toRegister">register</span>
+    </div>
   </el-form>
 </template>
 
@@ -59,11 +62,15 @@ export default {
           });
         }
       });
+    },
+    toRegister(){
+      this.$router.push("/register")
     }
   }
 };
 </script>
-<style scoped>
+<style scoped lang="scss">
+@import "~element-ui/packages/theme-chalk/src/common/var";
 .login-container {
   border-radius: 5px;
   margin: 180px auto;
@@ -82,6 +89,28 @@ export default {
 
 .login-container .remember {
   margin: 0 0 35px 0;
+  display: block;
+  text-align: left;
+}
+
+.to-register {
+  padding-top: 5px;
+  text-align: right;
+
+  .register__content {
+    color: $--color-primary;
+    cursor: pointer;
+    &:hover{
+      color: $--color-warning;
+    }
+    &.is-active{
+      text-decoration-line: underline;
+    }
+  }
+}
+
+.item__button {
+  margin-bottom: 10px;
 }
 </style>
 

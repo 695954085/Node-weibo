@@ -2,7 +2,7 @@ import Vue from 'vue'
 import Router from 'vue-router'
 import ShuoShuo from '@/components/ShuoShuo'
 import Login from '@/components/Login'
-import Regist from '@/components/Regist'
+import Register from '@/components/Register'
 
 Vue.use(Router)
 
@@ -17,9 +17,9 @@ const router = new Router({
       name: 'Login',
       component: Login
     }, {
-      path: '/regist',
-      name: 'Regist',
-      component: Regist
+      path: '/register',
+      name: 'Register',
+      component: Register
     }
   ]
 })

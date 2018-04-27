@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <transition name="fadein">
+    <transition name="fadein" mode='out-in'>
       <router-view/>
     </transition>
   </div>
@@ -21,5 +21,10 @@ export default {
   color: #2c3e50;
 }
 
-.fadein-
+.fadein-enter-active, .fadein-leave-active {
+  transition: opacity .5s;
+}
+.fadein-enter, .fadein-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  opacity: 0;
+}
 </style>

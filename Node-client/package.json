@@ -11,7 +11,10 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
+    "bcrypt": "^2.0.1",
     "element-ui": "^2.3.4",
+    "jsonwebtoken": "^8.2.1",
+    "passport": "^0.4.0",
     "vue": "^2.5.2",
     "vue-router": "^3.0.1",
     "vuex": "^3.0.1"
@@ -33,6 +36,7 @@
     "file-loader": "^1.1.4",
     "friendly-errors-webpack-plugin": "^1.6.1",
     "html-webpack-plugin": "^2.30.1",
+    "morgan": "^1.9.0",
     "node-notifier": "^5.1.2",
     "node-sass": "^4.8.3",
     "optimize-css-assets-webpack-plugin": "^3.2.0",

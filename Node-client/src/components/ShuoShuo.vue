@@ -27,12 +27,8 @@ export default {
     // this.getPointsFromServer -> this.$store.dispatch('getPointsFromServer')
     ...mapActions(["getPointsFromServer", "submitPointToServer"]),
     // ...mapMutations(["addPoint"])
-    async addPoint() {
-      let json = {
-        author: "jack",
-        text: "dark night"
-      };
-      let result = await this.submitPointToServer(json);
+    async addPoint(point) {
+      let result = await this.submitPointToServer(point);
     }
   },
   created() {

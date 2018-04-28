@@ -1,5 +1,5 @@
 const db = require('../model');
-const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint, doLogin, doRegist } = require('../service');
+const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint, doLogin, doRegister } = require('../service');
 const formidable = require('formidable');
 const createError = require('http-errors')
 
@@ -151,14 +151,14 @@ exports.doLogin = function (req, res, next) {
 }
 
 // 註冊接口
-exports.doRegist = function (req, res, next) {
+exports.doRegister = function (req, res, next) {
   let form = new formidable.IncomingForm();
   form.parse(req, function (err, fields, files) {
     if (err) {
       next(createError(500, err));
       return;
     }
-    doRegist(fields, function (err, user) {
+    doRegister(fields, function (err, user) {
       if (err) {
         next(createError(500, err));
         return;

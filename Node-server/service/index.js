@@ -23,6 +23,8 @@
 const User = require('../model/User');
 const Point = require('../model/Point');
 const ObjectId = require('mongodb').ObjectID;
+const jwt = require('jsonwebtoken');
+const config = require('../Config');
 
 //通过_id得到user
 exports.getAuthorInf = function (_id, callback) {
@@ -119,18 +121,38 @@ exports.getSomeOnePoint = function (aid, callback) {
   })
 }
 
-// 判断登录判断
+// 判断登录判断, 检查用户名与密码并生成一个accesstoken如果验证通过
 exports.doLogin = function (user, callback) {
-  User.findOne(user, (err, result) => {
+  User.findOne({ userName: user.userName }, (err, result) => {
     if (err) {
       callback(err);
       return;
     }
-    callback(null, result);
+    if (!result) {
+      callback(null, null);
+      return;
+    }
+    // model的实例方法
+    result.comparePassword(user.password, (err, isMatch) => {
+      if (isMatch && !err) {
+        // 生成token
+        let token = jwt.sign({ userName: user.userName }, config.secret, {
+          expiresIn: 10080
+        });
+        result.token = token;
+        result.save(function (err) {
+          if (err) {
+            // return callback(err);
+          }
+        });
+        // 验证成功
+        callback(null, user);
+      }
+    })
   })
 }
 
-exports.doRegist = function (fields, callback) {
+exports.doRegister = function (fields, callback) {
   let user = new User(fields);
   user.save(function (err, userInstance) {
     if (err) {

@@ -10,13 +10,20 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "bcrypt": "^2.0.1",
     "ejs": "^2.5.9",
     "express": "^4.16.3",
     "express-session": "^1.15.6",
     "formidable": "^1.2.1",
     "gm": "^1.23.1",
     "http-errors": "^1.6.3",
+    "jsonwebtoken": "^8.2.1",
     "mongodb": "^3.0.7",
-    "mongoose": "^5.0.16"
+    "mongoose": "^5.0.16",
+    "passport": "^0.4.0",
+    "passport-http-bearer": "^1.0.1"
+  },
+  "devDependencies": {
+    "morgan": "^1.9.0"
   }
 }

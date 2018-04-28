@@ -5,6 +5,8 @@ const db = require('./model/db');
 const session = require('express-session')
 const createError = require('http-errors')
 const path = require('path')
+const morgan = require('morgan') // 命令行log显示
+const passport = require('passport')
 
 const app = express();
 app.use(session({
@@ -23,7 +25,7 @@ app.set('view engine', 'ejs');
 
 app.post('/dologin', router.doLogin);
 
-app.post('/doregist', router.doRegist);
+app.post('/doregister', router.doRegister);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -35,7 +37,9 @@ app.use(function (req, res, next) {
   }
 });
 
-app.get('/getpoints', router.getPointsFromServer);
+app.get('/getpoints', passport.authenticate("bearer",{
+  session: false
+}),router.getPointsFromServer);
 
 app.post('/addpoint', router.addPointFromClient);
 

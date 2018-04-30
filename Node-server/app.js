@@ -7,13 +7,14 @@ const createError = require('http-errors')
 const path = require('path')
 const morgan = require('morgan') // 命令行log显示
 const passport = require('passport')
+require('./passport/passport')(passport)
 
 const app = express();
 app.use(session({
   secret: 'node-weibo',
   resave: false,
   saveUninitialized: true,
-  cookie:{
+  cookie: {
     httpOnly: true,
     maxAge: 1000 * 60 * 60
   }
@@ -23,9 +24,9 @@ app.use(session({
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
 
-app.post('/dologin', router.doLogin);
-
 app.post('/doregister', router.doRegister);
+
+app.post('/dologin', router.doLogin);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
@@ -33,13 +34,13 @@ app.use(function (req, res, next) {
     // 正常放行
     next();
   } else {
-    next(createError(404,"req.session.user is null,please login first"));
+    next(createError(404, "req.session.user is null,please login first"));
   }
 });
 
-app.get('/getpoints', passport.authenticate("bearer",{
+app.get('/getpoints', passport.authenticate("bearer", {
   session: false
-}),router.getPointsFromServer);
+}), router.getPointsFromServer);
 
 app.post('/addpoint', router.addPointFromClient);
 
@@ -57,7 +58,7 @@ app.use(function (err, req, res, next) {
     res.render("error", {
       err
     })
-  } 
+  }
 });
 
 app.listen(3000);

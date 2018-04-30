@@ -9,14 +9,22 @@ const userSchema = new mongoose.Schema({
 })
 
 // 校验用户输入密码是否正确
-userSchema.methods.comparePassword = function (password, callback) {
+// userSchema.methods.comparePassword = function (password, callback) {
+//   bcrypt.compare(password, this.password, (err, isMatch) => {
+//     if (err) {
+//       return callback(err);
+//     }
+//     callback(null, isMatch);
+//   })
+// }
+userSchema.method("comparePassword", function (password, callback) {
   bcrypt.compare(password, this.password, (err, isMatch) => {
     if (err) {
       return callback(err);
     }
     callback(null, isMatch);
   })
-}
+});
 
 //索引？
 // userSchema.index({"userName":1});

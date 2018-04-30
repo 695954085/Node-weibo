@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import { requestLogin } from "@/api";
+import { requestRegister } from "@/api";
 
 export default {
   name: "login",
@@ -45,17 +45,22 @@ export default {
             password: this.ruleForm2.checkPass,
             img: "http://localhost:3000/img/1.jpg"
           };
-          requestLogin(loginParams).then(response => {
+          requestRegister(loginParams).then(response => {
             let { data, status, statusText } = response;
             if (status !== 200) {
               this.$message({
-                message: msg,
+                message: statusText,
                 type: "error"
               });
-            } else {
+            } else if (data.code == 200 && data.isLogin) {
               // 浏览器被关闭的时候，sessionStorage会被清理
-              // sessionStorage.setItem("user", JSON.stringify(user));
-              this.$router.push("/liuyanben");
+              // sessionStorage.setItem("token", data);
+              this.$router.push("/login");
+            } else {
+              this.$message({
+                message: data.err,
+                type: "error"
+              });
             }
           });
         }

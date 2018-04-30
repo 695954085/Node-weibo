@@ -3,8 +3,11 @@ export default {
   user: {
     _id: "",
     userName: "",
-    avatar: ""
+    avatar: "",
+    // token用于判断是否登录
+    token: ""
   },
   // 所有的观点
-  points: []
+  points: [],
+
 }

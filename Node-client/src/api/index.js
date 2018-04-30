@@ -8,4 +8,4 @@ export const subimtPoint = (point) => axios.post('/addpoint', point);
 
 export const requestAuthorInf = params => axios.get('getauthorinf', params);
 
-export const requestRegist = params => axios.post("/doregist", params);
+export const requestRegister = params => axios.post("/doregister", params);

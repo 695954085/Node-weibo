@@ -4,7 +4,6 @@
       <card></card>
     </div>
     <div class="shuoshuo__main">
-      <comment></comment>
     </div>
   </div>
 </template>
@@ -21,7 +20,7 @@ export default {
   },
   computed: {
     ...mapGetters(["pointCount"]),
-    ...mapState(["points"])
+    ...mapState(["points","user"])
   },
   methods: {
     // this.getPointsFromServer -> this.$store.dispatch('getPointsFromServer')
@@ -32,6 +31,10 @@ export default {
     }
   },
   created() {
+    // 判断token是否为空，如果为空就跳转到login
+    if(this.user.token == null || this.user.token == ""){
+      return this.$router.push("/login");
+    }
     this.getPointsFromServer();
   }
 };

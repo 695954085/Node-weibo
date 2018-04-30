@@ -19,6 +19,8 @@
 
 <script>
 import { requestLogin } from "@/api";
+import { mapMutations } from "vuex";
+import { STORETOKEN, INITUSER } from "../store/mutation-types";
 
 export default {
   name: "login",
@@ -37,6 +39,7 @@ export default {
     };
   },
   methods: {
+    ...mapMutations([STORETOKEN]),
     handleSubmit() {
       let _this = this;
       this.$refs["form"].validate(valid => {
@@ -48,23 +51,29 @@ export default {
             img: "http://localhost:3000/img/1.jpg"
           };
           requestLogin(loginParams).then(response => {
+            this.logining = false;
             let { data, status, statusText } = response;
             if (status !== 200) {
               this.$message({
-                message: msg,
+                message: statusText,
                 type: "error"
               });
-            } else {
+            } else if (data.code == 200) {
               // 浏览器被关闭的时候，sessionStorage会被清理
-              // sessionStorage.setItem("user", JSON.stringify(user));
-              this.$router.push("/liuyanben");
+              this.$store.commit(INITUSER, data.user);
+              this.$router.push("/");
+            } else {
+              this.$message({
+                message: data.msg,
+                type: "error"
+              });
             }
           });
         }
       });
     },
-    toRegister(){
-      this.$router.push("/register")
+    toRegister() {
+      this.$router.push("/register");
     }
   }
 };
@@ -100,10 +109,10 @@ export default {
   .register__content {
     color: $--color-primary;
     cursor: pointer;
-    &:hover{
+    &:hover {
       color: $--color-warning;
     }
-    &.is-active{
+    &.is-active {
       text-decoration-line: underline;
     }
   }

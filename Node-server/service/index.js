@@ -146,7 +146,7 @@ exports.doLogin = function (user, callback) {
           }
         });
         // 验证成功
-        callback(null, user);
+        callback(null, result);
       }
     })
   })

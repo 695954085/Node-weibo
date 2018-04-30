@@ -3,6 +3,7 @@ import Router from 'vue-router'
 import ShuoShuo from '@/components/ShuoShuo'
 import Login from '@/components/Login'
 import Register from '@/components/Register'
+import { mapState } from 'vuex'
 
 Vue.use(Router)
 

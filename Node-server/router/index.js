@@ -134,6 +134,13 @@ exports.doLogin = function (req, res, next) {
         next(createError(500, err));
         return;
       }
+      if (!user) {
+        res.send({
+          code: 201,
+          msg: "該用戶不存在"
+        })
+        return;
+      }
       // delete user.password;
       // console.log(user);
       // 
@@ -141,10 +148,12 @@ exports.doLogin = function (req, res, next) {
       res.send({
         code: 200,
         user: {
+          _id: user._id,
           userName: user.userName,
-          img: user.img
+          avatar: user.img,
+          token: user.token
         },
-        msg: "服务器内部异常"
+        msg: "登录成功"
       })
     })
   })

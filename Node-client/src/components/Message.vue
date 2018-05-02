@@ -2,14 +2,14 @@
   <div class="message">
     <ul>
       <li v-for="item in pointCount" :key="item">
-        <message :index='item'></message>
+        <comment :index='item-1'></comment>
       </li>
     </ul>
   </div>
 </template>
 
 <script>
-import message from "@/components/Message";
+import comment from "@/components/Comment";
 import { mapActions, mapState, mapGetters } from "vuex";
 
 export default {
@@ -17,19 +17,14 @@ export default {
     return {};
   },
   components: {
-    message
+    comment
   },
   methods: {
-    ...mapActions(["getPointsFromServer"]),
-    async initPoints() {
-      await this.getPointsFromServer();
-    }
   },
   computed: {
     ...mapGetters(["pointCount"])
   },
   created() {
-    this.initPoints();
   }
 };
 </script>

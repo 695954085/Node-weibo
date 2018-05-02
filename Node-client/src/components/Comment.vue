@@ -1,7 +1,7 @@
 <template>
   <div class="SS-cardwrap">
     <div class="SS-cardwrap__content">
-      <img :src="currentAuthor.img" :alt="currentAuthor.userName" class="content__avatar">
+      <img :src="currentAuthor.avatar" :alt="currentAuthor.userName" class="content__avatar">
       <div class="content__detail">{{currentPoint.text}}</div>
       <div class="content__like">{{likeCount}}</div>
     </div>
@@ -20,10 +20,13 @@ export default {
       currentAuthor: {
         userName: "",
         // 默认的头像
-        img: "/img/logo.png"
+        avatar: "/img/logo.png"
       },
       // 当前说说
-      currentPoint: {}
+      currentPoint: {
+        like: [],
+        author: ""
+      }
     };
   },
   props: ["index"],
@@ -37,7 +40,7 @@ export default {
   methods: {
     async getCurrentAuthor() {
       let result = await requestAuthorInf({
-        authorId: this.currentPoint.author
+        _id: this.currentPoint._id
       });
       if (result.status == 200) {
         this.currentAuthor = result.data;
@@ -51,5 +54,5 @@ export default {
     this.getCurrentAuthor();
   }
 };
-</script>
 // https://weibo.com/u/6331262481?is_all=1#_loginLayer_1524494850523
+</script>

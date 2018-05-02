@@ -7,7 +7,7 @@ export const requestPoints = () => axios.get('/getpoints');
 
 export const subimtPoint = (point) => axios.post('/addpoint', point);
 
-export const requestAuthorInf = params => axios.get('getauthorinf', params);
+export const requestAuthorInf = params => axios.post('getauthorinf', params);
 
 export const requestRegister = params => axios.post("/doregister", params);
 

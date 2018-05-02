@@ -9,13 +9,24 @@
   </div>
 </template>
 <script>
-import { mapGetters, mapActions } from "vuex";
+import { mapGetters, mapActions, mapState } from "vuex";
 export default {
   data() {
     return {};
   },
   computed: {
-    ...mapGetters(["friendList"])
+    ...mapState(["userList", "user"]),
+    friendList() {
+      if (!this.userList) {
+        return new Array();
+      }
+      return this.userList.filter((value, index, array) => {
+        if (value.userName == this.user.userName) {
+          return false;
+        }
+        return true;
+      });
+    }
   },
   methods: {
     ...mapActions(["requestUserListFromServer"])

@@ -10,5 +10,5 @@ export default {
   // 所有的观点
   points: [],
   // 获取朋友列表
-  userList: []
+  userList: new Array()
 }

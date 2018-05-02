@@ -5,12 +5,14 @@
       <friendlist></friendlist>
     </div>
     <div class="shuoshuo__main">
+      <message></message>
     </div>
   </div>
 </template>
 <script>
 import card from "@/components/Card";
 import friendlist from "@/components/FriendList";
+import message from "@/components/Message";
 import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 
 export default {
@@ -19,7 +21,8 @@ export default {
   },
   components: {
     card,
-    friendlist
+    friendlist,
+    message
   },
   computed: {
     ...mapGetters(["pointCount"]),

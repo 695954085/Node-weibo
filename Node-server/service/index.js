@@ -28,7 +28,7 @@ const config = require('../Config');
 
 //通过_id得到user
 exports.getAuthorInf = function (_id, callback) {
-  User.findOne({ _id: _id }, (err, user) => {
+  User.findOne({ _id: ObjectId(_id)}, (err, user) => {
     if (err) {
       callback(err);
       return;
@@ -163,12 +163,12 @@ exports.doRegister = function (fields, callback) {
   });
 }
 
-exports.getFriendList = function (userName) {
-  user.find({ userName: userName }, 'userName avatar', function (err, docs) {
-    if(err){
+exports.getFriendList = function (userName, callback) {
+  User.find({}, 'userName avatar', function (err, docs) {
+    if (err) {
       callback(err);
       return;
     }
-    callback(null,docs);
+    callback(null, docs);
   });
 }

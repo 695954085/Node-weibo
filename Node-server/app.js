@@ -28,6 +28,8 @@ app.post('/doregister', router.doRegister);
 
 app.post('/dologin', router.doLogin);
 
+app.use(express.static('./public'));
+
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
   if (req.session.userName) {
@@ -44,7 +46,7 @@ app.get('/getpoints', passport.authenticate("bearer", {
 
 app.post('/addpoint', router.addPointFromClient);
 
-app.get('/getauthorinf', router.getAuthorInf);
+app.post('/getauthorinf', router.getAuthorInf);
 
 app.post('/addcomment', router.addComment);
 
@@ -56,10 +58,9 @@ app.post('/getfriendlist',router.getFriendList);
 
 // error handler
 app.use(function (err, req, res, next) {
-  if (err) {
-    res.render("error", {
-      err
-    })
+  if (err) {  
+    res.status(err.status || 500);
+    res.send(err);
   }
 });
 

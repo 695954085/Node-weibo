@@ -10,22 +10,26 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable: {
-      '/getpoints': { target: 'http://localhost:3000/', changeOrigin: true, pathRewrite: { "^/getpoints": "/getpoints" } },
-      '/addpoint': {
-        target: 'http://localhost:3000',
-        changeOrigin: true
-      },
-      '/doregister': {
-        target: 'http://localhost:3000',
-        changeOrigin: true
-      },
-      '/dologin':{
-        target: 'http://localhost:3000',
-        changeOrigin: true
-      }
-    },
-
+    // proxyTable: {
+    //   '/getpoints': { target: 'http://localhost:3000/', changeOrigin: true, pathRewrite: { "^/getpoints": "/getpoints" } },
+    //   '/addpoint': {
+    //     target: 'http://localhost:3000',
+    //     changeOrigin: true
+    //   },
+    //   '/doregister': {
+    //     target: 'http://localhost:3000',
+    //     changeOrigin: true
+    //   },
+    //   '/dologin':{
+    //     target: 'http://localhost:3000',
+    //     changeOrigin: true
+    //   }
+    // },
+    proxyTable:[{
+      context: ['/getpoints','/addpoint','/doregister','/dologin','/getfriendlist','/getauthorinf'],
+      target: 'http://localhost:3000',
+      changeOrigin: true
+    }],
     // Various Dev Server settings
     host: 'localhost', // can be overwritten by process.env.HOST
     port: 8080, // can be overwritten by process.env.PORT, if port is in use, a free one will be determined

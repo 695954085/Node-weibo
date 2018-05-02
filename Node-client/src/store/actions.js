@@ -13,6 +13,7 @@ export default {
   },
   async requestUserListFromServer({ commit, state }) {
     let result = await requestUserList();
-    commit(INITUSERList, result.data);
+    if (result.status == 200)
+      commit(INITUSERList, result.data);
   }
 }

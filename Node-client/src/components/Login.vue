@@ -48,7 +48,7 @@ export default {
           let loginParams = {
             userName: this.ruleForm2.account,
             password: this.ruleForm2.checkPass,
-            img: "http://localhost:3000/img/1.jpg"
+            avatar: "http://localhost:3000/img/1.jpg"
           };
           requestLogin(loginParams).then(response => {
             this.logining = false;

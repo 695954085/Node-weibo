@@ -150,7 +150,7 @@ exports.doLogin = function (req, res, next) {
         user: {
           _id: user._id,
           userName: user.userName,
-          avatar: user.img,
+          avatar: user.avatar,
           token: user.token
         },
         msg: "登录成功"
@@ -175,7 +175,7 @@ exports.doRegister = function (req, res, next) {
       req.session.userName = user.userName;
       res.send({
         code: 200,
-        isLogin: true // 注册成功
+        isRegister: true // 注册成功
       })
     })
   });

@@ -1,6 +1,6 @@
 <template>
   <div class="message">
-    <ul>
+    <ul class="message__content">
       <li v-for="item in pointCount" :key="item">
         <comment :index='item-1'></comment>
       </li>
@@ -28,4 +28,10 @@ export default {
   }
 };
 </script>
+
+<style lang="scss" scoped>
+.message__content{
+  list-style: none;
+}
+</style>
 

@@ -40,7 +40,7 @@ export default {
   methods: {
     async getCurrentAuthor() {
       let result = await requestAuthorInf({
-        _id: this.currentPoint._id
+        _id: this.currentPoint.aid
       });
       if (result.status == 200) {
         this.currentAuthor = result.data;

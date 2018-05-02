@@ -52,6 +52,8 @@ app.post('/addlike', router.addLike);
 
 app.post('/getsomeonepoint', router.getSomeOnePoint);
 
+app.post('/getfriendlist',router.getFriendList);
+
 // error handler
 app.use(function (err, req, res, next) {
   if (err) {

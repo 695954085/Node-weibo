@@ -7,3 +7,5 @@ export const GETPOINT = 'getPoint';
 export const STORETOKEN = 'storeToken';
 
 export const INITUSER = 'initUser';
+
+export const INITUSERList = 'initUserList'

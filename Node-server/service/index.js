@@ -162,3 +162,13 @@ exports.doRegister = function (fields, callback) {
     callback(null, userInstance);
   });
 }
+
+exports.getFriendList = function (userName) {
+  user.find({ userName: userName }, 'userName avatar', function (err, docs) {
+    if(err){
+      callback(err);
+      return;
+    }
+    callback(null,docs);
+  });
+}

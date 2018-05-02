@@ -1,5 +1,5 @@
 const db = require('../model');
-const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint, doLogin, doRegister } = require('../service');
+const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint, doLogin, doRegister, getFriendList } = require('../service');
 const formidable = require('formidable');
 const createError = require('http-errors')
 
@@ -178,5 +178,15 @@ exports.doRegister = function (req, res, next) {
         isLogin: true // 注册成功
       })
     })
+  });
+}
+
+exports.getFriendList = function (req, res, next) {
+  getFriendList(req.session.userName, function (err, docs){
+    if(err){
+      next(createError(500,err));
+      return;
+    }
+    res.send(docs);
   });
 }

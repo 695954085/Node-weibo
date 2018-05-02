@@ -2,6 +2,7 @@
   <div class="shuoshuo">
     <div class="shuoshuo__sidebar">
       <card></card>
+      <friendlist></friendlist>
     </div>
     <div class="shuoshuo__main">
     </div>
@@ -9,6 +10,7 @@
 </template>
 <script>
 import card from "@/components/Card";
+import friendlist from "@/components/FriendList";
 import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 
 export default {
@@ -16,11 +18,12 @@ export default {
     return {};
   },
   components: {
-    card
+    card,
+    friendlist
   },
   computed: {
     ...mapGetters(["pointCount"]),
-    ...mapState(["points","user"])
+    ...mapState(["points", "user"])
   },
   methods: {
     // this.getPointsFromServer -> this.$store.dispatch('getPointsFromServer')
@@ -32,7 +35,7 @@ export default {
   },
   created() {
     // 判断token是否为空，如果为空就跳转到login
-    if(this.user.token == null || this.user.token == ""){
+    if (this.user.token == null || this.user.token == "") {
       return this.$router.push("/login");
     }
     this.getPointsFromServer();

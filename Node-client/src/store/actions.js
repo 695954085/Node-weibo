@@ -1,14 +1,18 @@
-import { requestPoints, subimtPoint } from '@/api'
-import { INITPOINTS, ADDPOINT } from './mutation-types'
+import { requestPoints, subimtPoint, requestUserList } from '../api/index'
+import { INITPOINTS, ADDPOINT, INITUSERList } from './mutation-types'
 
 export default {
-  async getPointsFromServer({ commit }) {
-    let result = await requestPoints();
-    commit(INITPOINTS,result.data);
+  async getPointsFromServer({ commit, state }) {
+    let result = await requestPoints(state.user.token);
+    commit(INITPOINTS, result.data);
   },
   async submitPointToServer({ commit }, point) {
     let result = await subimtPoint(point);
-    commit(ADDPOINT,point);
+    commit(ADDPOINT, point);
     return result;
+  },
+  async requestUserListFromServer({ commit, state }) {
+    let result = await requestUserList();
+    commit(INITUSERList, result.data);
   }
 }

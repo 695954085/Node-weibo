@@ -18,7 +18,7 @@
 </template>
 
 <script>
-import { requestLogin } from "@/api";
+import { requestLogin, axiosSetAuth } from "@/api";
 import { mapMutations } from "vuex";
 import { STORETOKEN, INITUSER } from "../store/mutation-types";
 
@@ -61,6 +61,8 @@ export default {
             } else if (data.code == 200) {
               // 浏览器被关闭的时候，sessionStorage会被清理
               this.$store.commit(INITUSER, data.user);
+              axiosSetAuth(data.user.token);
+              // 执行某个Mutation，把axios的header设置token
               this.$router.push("/");
             } else {
               this.$message({

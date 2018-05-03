@@ -5,7 +5,8 @@
       <friendlist></friendlist>
     </div>
     <div class="shuoshuo__main">
-      <message></message>
+      <message class="shuoshuo__message" v-scroll='scroll'></message>
+      <mtext class="shuoshuo__text"></mtext>
     </div>
   </div>
 </template>
@@ -13,25 +14,27 @@
 import card from "@/components/Card";
 import friendlist from "@/components/FriendList";
 import message from "@/components/Message";
+import mtext from "@/components/Text";
 import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 
 export default {
   data() {
-    return {};
+    return {
+      scroll: "bottom"
+    };
   },
   components: {
     card,
     friendlist,
-    message
+    message,
+    mtext
   },
   computed: {
     ...mapGetters(["pointCount"]),
     ...mapState(["points", "user"])
   },
   methods: {
-    // this.getPointsFromServer -> this.$store.dispatch('getPointsFromServer')
-    ...mapActions(["getPointsFromServer", "submitPointToServer"]),
-    // ...mapMutations(["addPoint"])
+    ...mapActions(["getPointsFromServer"]),
     async addPoint(point) {
       let result = await this.submitPointToServer(point);
     }
@@ -41,7 +44,28 @@ export default {
     if (this.user.token == null || this.user.token == "") {
       return this.$router.push("/login");
     }
-    this.getPointsFromServer();
+    let isAuthorized = this.getPointsFromServer();
+    if (!isAuthorized) {
+      this.$router.push("/login");
+    }
+  },
+  directives: {
+    scroll: {
+      // 指定的定義
+      inserted(el, binding) {
+        // let messageHeight = this.$el.clientHeight * 0.8;
+        // if (el.clientHeight <= messageHeight) {
+        //   return;
+        // }
+        // // 初始化滚动到底部
+        // if (binding.value == "bottom") {
+        // el.scrollIntoView(true);
+        // }
+        // console.log(el);
+        // console.log(binding.value);
+        // el.children.item(0).scrollTop = 100;
+      }
+    }
   }
 };
 </script>
@@ -62,6 +86,17 @@ export default {
     width: 600px;
     position: relative;
     background-color: #eeeeee;
+    height: 100%;
+
+    .shuoshuo__message {
+      height: 80%;
+      overflow-y: auto;
+      overflow-x: hidden;
+    }
+
+    .shuoshuo__text {
+      height: 20%;
+    }
   }
 }
 </style>

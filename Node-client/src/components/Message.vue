@@ -25,6 +25,15 @@ export default {
     ...mapGetters(["pointCount"])
   },
   created() {
+  },
+  mounted(){
+    this.$nextTick().then(()=>{
+      this.$el.children.item(0).scrollTop = this.$el.children.item(0).scrollHeight -
+        this.$el.clientHeight;
+        console.log(this.$el.children.item(0).scrollTop)
+        console.log(this.$el.clientHeight)
+        console.log(this.$el.children.item(0).scrollHeight)
+    })
   }
 };
 </script>
@@ -32,6 +41,9 @@ export default {
 <style lang="scss" scoped>
 .message__content{
   list-style: none;
+  margin: 0;
+  padding: 0;
+  height: 100%;
 }
 </style>
 

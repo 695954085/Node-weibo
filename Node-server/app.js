@@ -44,21 +44,33 @@ app.get('/getpoints', passport.authenticate("bearer", {
   session: false
 }), router.getPointsFromServer);
 
-app.post('/addpoint', router.addPointFromClient);
+app.post('/addpoint', passport.authenticate("bearer", {
+  session: false
+}), router.addPointFromClient);
 
-app.post('/getauthorinf', router.getAuthorInf);
+app.post('/getauthorinf', passport.authenticate("bearer", {
+  session: false
+}), router.getAuthorInf);
 
-app.post('/addcomment', router.addComment);
+app.post('/addcomment', passport.authenticate("bearer", {
+  session: false
+}), router.addComment);
 
-app.post('/addlike', router.addLike);
+app.post('/addlike', passport.authenticate("bearer", {
+  session: false
+}), router.addLike);
 
-app.post('/getsomeonepoint', router.getSomeOnePoint);
+app.post('/getsomeonepoint', passport.authenticate("bearer", {
+  session: false
+}), router.getSomeOnePoint);
 
-app.post('/getfriendlist',router.getFriendList);
+app.post('/getfriendlist', passport.authenticate("bearer", {
+  session: false
+}), router.getFriendList);
 
 // error handler
 app.use(function (err, req, res, next) {
-  if (err) {  
+  if (err) {
     res.status(err.status || 500);
     res.send(err);
   }

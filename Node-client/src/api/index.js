@@ -11,6 +11,7 @@ export const requestAuthorInf = params => axios.post('getauthorinf', params);
 
 export const requestRegister = params => axios.post("/doregister", params);
 
+// 登录成功后，axios设置头，如果以后认证失败了，那么需要重新设置头
 export const axiosSetAuth = token => {
   axios.defaults.headers.common['Authorization'] = 'bearer ' + token;
 }

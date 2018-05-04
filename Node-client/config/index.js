@@ -10,23 +10,8 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    // proxyTable: {
-    //   '/getpoints': { target: 'http://localhost:3000/', changeOrigin: true, pathRewrite: { "^/getpoints": "/getpoints" } },
-    //   '/addpoint': {
-    //     target: 'http://localhost:3000',
-    //     changeOrigin: true
-    //   },
-    //   '/doregister': {
-    //     target: 'http://localhost:3000',
-    //     changeOrigin: true
-    //   },
-    //   '/dologin':{
-    //     target: 'http://localhost:3000',
-    //     changeOrigin: true
-    //   }
-    // },
     proxyTable:[{
-      context: ['/getpoints','/addpoint','/doregister','/dologin','/getfriendlist','/getauthorinf'],
+      context: ['/getpoints','/addpoint','/doregister','/dologin','/getfriendlist','/getauthorinf','/getpointcomment'],
       target: 'http://localhost:3000',
       changeOrigin: true
     }],

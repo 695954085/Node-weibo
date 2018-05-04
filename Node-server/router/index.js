@@ -1,5 +1,6 @@
 const db = require('../model');
-const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint, doLogin, doRegister, getFriendList } = require('../service');
+const { getPoints, addPoint, getAuthorInf, addComment, addLike, getSomeOnePoint, doLogin, doRegister, getFriendList,
+  getPointComment } = require('../service');
 const formidable = require('formidable');
 const createError = require('http-errors')
 
@@ -182,11 +183,24 @@ exports.doRegister = function (req, res, next) {
 }
 
 exports.getFriendList = function (req, res, next) {
-  getFriendList(req.session.userName, function (err, docs){
-    if(err){
-      next(createError(500,err));
+  getFriendList(req.session.userName, function (err, docs) {
+    if (err) {
+      next(createError(500, err));
       return;
     }
     res.send(docs);
   });
+}
+
+exports.getPointComment = function (req, res, next) {
+  let form = new formidable.IncomingForm();
+  form.parse(req, (err, fields, files) => {
+    getPointComment(fields._id,function(err,doc){
+      if(err){
+        next(createError(500,err));
+        return;
+      }
+      res.send(doc);
+    })
+  })
 }

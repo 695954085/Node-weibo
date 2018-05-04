@@ -19,27 +19,22 @@ export default {
   components: {
     comment
   },
-  methods: {
-  },
+  methods: {},
   computed: {
     ...mapGetters(["pointCount"])
   },
-  created() {
-  },
-  mounted(){
+  created() {},
+  mounted() {},
+  updated() {
     this.$nextTick().then(()=>{
-      this.$el.children.item(0).scrollTop = this.$el.children.item(0).scrollHeight -
-        this.$el.clientHeight;
-        console.log(this.$el.children.item(0).scrollTop)
-        console.log(this.$el.clientHeight)
-        console.log(this.$el.children.item(0).scrollHeight)
+      this.$el.scrollTop = this.$el.scrollHeight - this.$el.clientHeight;
     })
   }
 };
 </script>
 
 <style lang="scss" scoped>
-.message__content{
+.message__content {
   list-style: none;
   margin: 0;
   padding: 0;

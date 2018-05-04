@@ -1,5 +1,5 @@
-import { requestPoints, subimtPoint, requestUserList } from '../api/index'
-import { INITPOINTS, ADDPOINT, INITUSERList } from './mutation-types'
+import { requestPoints, subimtPoint, requestUserList, requestPointComment } from '../api/index'
+import { INITPOINTS, ADDPOINT, INITUSERList, INITPOINTCOMMENT } from './mutation-types'
 
 export default {
   async getPointsFromServer({ commit, state }) {
@@ -16,7 +16,7 @@ export default {
     let result = await subimtPoint(point);
     if (result.status == 401) {
       return fasle;
-    } else if (result.status == 200){
+    } else if (result.status == 200) {
       commit(ADDPOINT, point);
       return true;
     }
@@ -25,5 +25,14 @@ export default {
     let result = await requestUserList();
     if (result.status == 200)
       commit(INITUSERList, result.data);
+  },
+  async requestCurrentPointComment({ commit }, _id) {
+    let result = await requestPointComment();
+    if (result.status == 200) {
+      commit(INITPOINTCOMMENT, result.data);
+      return true;
+    } else {
+      return false;
+    }
   }
 }

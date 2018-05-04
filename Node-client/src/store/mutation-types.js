@@ -8,4 +8,6 @@ export const STORETOKEN = 'storeToken';
 
 export const INITUSER = 'initUser';
 
-export const INITUSERList = 'initUserList'
+export const INITUSERList = 'initUserList';
+
+export const INITPOINTCOMMENT = 'initPointComment';

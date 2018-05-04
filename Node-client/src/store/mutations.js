@@ -1,4 +1,4 @@
-import { INITPOINTS, ADDPOINT, GETPOINT, STORETOKEN, INITUSER,INITUSERList  } from './mutation-types'
+import { INITPOINTS, ADDPOINT, GETPOINT, STORETOKEN, INITUSER, INITUSERList,INITPOINTCOMMENT } from './mutation-types'
 
 export default {
   [INITPOINTS](state, points) {
@@ -13,7 +13,7 @@ export default {
   [INITUSER](state, user) {
     state.user = user;
   },
-  [INITUSERList](state,userList){
+  [INITUSERList](state, userList) {
     state.userList = userList;
   }
 }

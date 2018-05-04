@@ -9,8 +9,8 @@
       </div>
     </div>
     <div class="SS-cardwrap__handle">
-      <div class="handle__comment">
-        <i class="el-icon-edit"></i>
+      <div class="handle__comment" @click="getComment()">
+        <i :class="{'el-icon-edit':edit,'el-icon-loading':isLoading}"></i>
         评论
       </div>
       <div class="handle__like">
@@ -22,7 +22,7 @@
 </template>
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-import { requestAuthorInf } from "../api";
+import { requestAuthorInf, requestPointComment } from "../api";
 
 export default {
   data() {
@@ -34,9 +34,16 @@ export default {
       },
       // 当前说说
       currentPoint: {
+        _id: "",
         like: [],
-        author: ""
-      }
+        author: "",
+        aid: "",
+        date: "",
+        text: "",
+        comment: []
+      },
+      edit: true,
+      isLoading: false
     };
   },
   filters: {
@@ -46,7 +53,11 @@ export default {
     }
   },
   props: ["index"],
-  methods: {},
+  methods: {
+    comment() {
+      // 获取currentPoint的comment
+    }
+  },
   computed: {
     ...mapState(["points"]),
     likeCount() {
@@ -61,6 +72,12 @@ export default {
       if (result.status == 200) {
         this.currentAuthor = result.data;
       }
+    },
+    async getComment(){
+      this.isLoading = true;
+      this.edit = false;
+      let result = await requestPointComment(this.currentPoint._id);
+      this.currentPoint.comment = result.data;
     }
   },
   created() {},

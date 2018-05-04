@@ -68,6 +68,10 @@ app.post('/getfriendlist', passport.authenticate("bearer", {
   session: false
 }), router.getFriendList);
 
+app.post('/getpointcomment',passport.authenticate("bearer",{
+  session: false
+}),router.getPointComment)
+
 // error handler
 app.use(function (err, req, res, next) {
   if (err) {

@@ -5,7 +5,7 @@
       <friendlist></friendlist>
     </div>
     <div class="shuoshuo__main">
-      <message class="shuoshuo__message" v-scroll='scroll'></message>
+      <message class="shuoshuo__message"></message>
       <mtext class="shuoshuo__text"></mtext>
     </div>
   </div>
@@ -20,7 +20,6 @@ import { mapActions, mapGetters, mapState, mapMutations } from "vuex";
 export default {
   data() {
     return {
-      scroll: "bottom"
     };
   },
   components: {
@@ -47,24 +46,6 @@ export default {
     let isAuthorized = this.getPointsFromServer();
     if (!isAuthorized) {
       this.$router.push("/login");
-    }
-  },
-  directives: {
-    scroll: {
-      // 指定的定義
-      inserted(el, binding) {
-        // let messageHeight = this.$el.clientHeight * 0.8;
-        // if (el.clientHeight <= messageHeight) {
-        //   return;
-        // }
-        // // 初始化滚动到底部
-        // if (binding.value == "bottom") {
-        // el.scrollIntoView(true);
-        // }
-        // console.log(el);
-        // console.log(binding.value);
-        // el.children.item(0).scrollTop = 100;
-      }
     }
   }
 };

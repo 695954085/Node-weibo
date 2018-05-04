@@ -28,7 +28,7 @@ const config = require('../Config');
 
 //通过_id得到user
 exports.getAuthorInf = function (_id, callback) {
-  User.findOne({ _id: ObjectId(_id)}, (err, user) => {
+  User.findOne({ _id: ObjectId(_id) }, (err, user) => {
     if (err) {
       callback(err);
       return;
@@ -39,7 +39,7 @@ exports.getAuthorInf = function (_id, callback) {
 
 //得到所有的points
 exports.getPoints = function ({ }, callback) {
-  Point.find({}, (err, res) => {
+  Point.find({},"_id author aid text date like", (err, res) => {
     if (err) {
       callback(err);
       return;
@@ -170,5 +170,15 @@ exports.getFriendList = function (userName, callback) {
       return;
     }
     callback(null, docs);
+  });
+}
+
+exports.getPointComment = function (_id, callback) {
+  Point.findOne({ _id: _id }, function (err, res) {
+    if (err) {
+      callback(err);
+      return;
+    }
+    callback(null, res);
   });
 }

@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="SS-cardwrap__handle">
-      <div class="handle__comment" @click="getComment()">
+      <div class="handle__comment" @click="showComment()">
         <i :class="{'el-icon-edit':edit,'el-icon-loading':isLoading}"></i>
         评论
       </div>
@@ -17,6 +17,21 @@
         <i class="el-icon-star-off"></i>
         点赞
       </div>
+    </div>
+    <div class="pointcomment" v-show="isShowComment">
+      <div class="pointcomment__publisher">
+        <img :src="user.avatar" height='30px' width='30px' class="content__avatar" />
+        <input class="content__input" />
+        <el-button type="primary" class="content_button">评论</el-button>
+      </div>
+      <div class="comment-list">
+        <div class="list__item" v-for="item in currentPoint.comments" :key="item">
+        </div>
+      </div>
+    </div>
+    <div v-show="isLoadingComment" class="pointcomment">
+      <span class="commentloading">
+        <i class="el-icon-edit"></i>正在加载,请稍后...</span>
     </div>
   </div>
 </template>
@@ -27,6 +42,7 @@ import { requestAuthorInf, requestPointComment } from "../api";
 export default {
   data() {
     return {
+      // 当前评论的作者
       currentAuthor: {
         userName: "",
         // 默认的头像
@@ -40,10 +56,12 @@ export default {
         aid: "",
         date: "",
         text: "",
-        comment: []
+        comments: []
       },
       edit: true,
-      isLoading: false
+      isLoading: false,
+      isShowComment: false,
+      isLoadingComment: false
     };
   },
   filters: {
@@ -59,7 +77,7 @@ export default {
     }
   },
   computed: {
-    ...mapState(["points"]),
+    ...mapState(["points", "user"]),
     likeCount() {
       return this.currentPoint.like.length;
     }
@@ -73,11 +91,22 @@ export default {
         this.currentAuthor = result.data;
       }
     },
-    async getComment(){
+    showComment() {
+      // 1. 下载comment
+      this.isLoadingComment = true;
+      // 开始下载comment
+      requestPointComment({
+        _id: this.user._id
+      }).then(value => {
+
+      });
+      this.isShowComment = true;
+    },
+    async getComment() {
       this.isLoading = true;
       this.edit = false;
-      let result = await requestPointComment(this.currentPoint._id);
-      this.currentPoint.comment = result.data;
+      let result = await requestPointComment({ _id: this.currentPoint._id });
+      this.currentPoint.comments = result.data;
     }
   },
   created() {},
@@ -92,6 +121,7 @@ export default {
 
 <style lang="scss" scoped>
 .SS-cardwrap {
+  box-sizing: border-box;
   background-color: rgb(255, 255, 255);
   border-bottom-left-radius: 2px;
   border-bottom-right-radius: 2px;
@@ -221,6 +251,46 @@ export default {
       flex-grow: 1;
       margin: 7px 0;
       line-height: 22px;
+    }
+  }
+
+  .pointcomment {
+    overflow: hidden;
+    background-color: rgb(242, 242, 245);
+    border-bottom-left-radius: 2px;
+    border-bottom-right-radius: 2px;
+    color: rgb(51, 51, 51);
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    letter-spacing: normal;
+    line-height: 15.6px;
+    word-spacing: 0px;
+    -webkit-font-smoothing: antialiased;
+    padding: 20px;
+
+    .content__avatar {
+      color: rgb(51, 51, 51);
+      display: block;
+      float: left;
+      padding-top: 0px;
+      position: relative;
+    }
+
+    .content__input {
+      line-height: 25px;
+      display: block;
+      margin-left: 50px;
+      width: 500px;
+    }
+
+    .content_button {
+      float: right;
+      margin-right: 5px;
+      margin-top: 10px;
+    }
+
+    .commentloading {
     }
   }
 }

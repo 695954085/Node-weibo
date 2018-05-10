@@ -18,4 +18,4 @@ export const axiosSetAuth = token => {
 
 export const requestUserList = () => axios.post('/getfriendlist');
 
-export const requestPointComment = (params) => axios.post('/getpointcomment',params);
+export const requestPointComment = (params) => axios.post('/getpointcomment', params);

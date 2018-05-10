@@ -39,7 +39,7 @@ exports.getAuthorInf = function (_id, callback) {
 
 //得到所有的points
 exports.getPoints = function ({ }, callback) {
-  Point.find({},"_id author aid text date like", (err, res) => {
+  Point.find({}, "_id author aid text date like", (err, res) => {
     if (err) {
       callback(err);
       return;
@@ -174,7 +174,7 @@ exports.getFriendList = function (userName, callback) {
 }
 
 exports.getPointComment = function (_id, callback) {
-  Point.findOne({ _id: _id }, function (err, res) {
+  Point.findOne({ _id: ObjectId(_id) }, "comments", function (err, res) {
     if (err) {
       callback(err);
       return;

@@ -1,4 +1,4 @@
-import { INITPOINTS, ADDPOINT, GETPOINT, STORETOKEN, INITUSER, INITUSERList,INITPOINTCOMMENT } from './mutation-types'
+import { INITPOINTS, ADDLIKE, ADDPOINT, GETPOINT, STORETOKEN, INITUSER, INITUSERList, INITPOINTCOMMENT } from './mutation-types'
 
 export default {
   [INITPOINTS](state, points) {
@@ -15,5 +15,8 @@ export default {
   },
   [INITUSERList](state, userList) {
     state.userList = userList;
+  },
+  [ADDLIKE](state, payload) {
+    state.points[payload.index].like.push(payload.userName);
   }
 }

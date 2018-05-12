@@ -195,9 +195,9 @@ exports.getFriendList = function (req, res, next) {
 exports.getPointComment = function (req, res, next) {
   let form = new formidable.IncomingForm();
   form.parse(req, (err, fields, files) => {
-    getPointComment(fields._id,function(err,doc){
-      if(err){
-        next(createError(500,err));
+    getPointComment(fields._id, function (err, doc) {
+      if (err) {
+        next(createError(500, err));
         return;
       }
       res.send(doc);

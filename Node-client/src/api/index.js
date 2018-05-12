@@ -19,3 +19,8 @@ export const axiosSetAuth = token => {
 export const requestUserList = () => axios.post('/getfriendlist');
 
 export const requestPointComment = (params) => axios.post('/getpointcomment', params);
+
+// 为某一个Point添加评论
+export const submitPointComment = params => axios.post('/addcomment', params);
+
+export const addLike = params => axios.post('/addlike', params);

@@ -10,8 +10,8 @@ module.exports = {
     // Paths
     assetsSubDirectory: 'static',
     assetsPublicPath: '/',
-    proxyTable:[{
-      context: ['/getpoints','/addpoint','/doregister','/dologin','/getfriendlist','/getauthorinf','/getpointcomment'],
+    proxyTable: [{
+      context: ['/getpoints', '/addpoint', '/doregister', '/dologin', '/getfriendlist', '/getauthorinf', '/getpointcomment', '/addcomment', '/addlike'],
       target: 'http://localhost:3000',
       changeOrigin: true
     }],

@@ -10,22 +10,26 @@
     </div>
     <div class="SS-cardwrap__handle">
       <div class="handle__comment" @click="showComment()">
-        <i :class="{'el-icon-edit':edit,'el-icon-loading':isLoading}"></i>
+        <i class="el-icon-edit"></i>
         评论
       </div>
-      <div class="handle__like">
+      <div class="handle__like" @click="addLike()">
         <i class="el-icon-star-off"></i>
         点赞
+        <span class="like__count">{{likeCount}}</span>
       </div>
     </div>
     <div class="pointcomment" v-show="isShowComment">
       <div class="pointcomment__publisher">
         <img :src="user.avatar" height='30px' width='30px' class="content__avatar" />
-        <input class="content__input" />
-        <el-button type="primary" class="content_button">评论</el-button>
+        <input class="content__input" v-model="pointComment" />
+        <el-button type="primary" class="content_button" @click="addPointComment()">评论</el-button>
       </div>
       <div class="comment-list">
-        <div class="list__item" v-for="item in currentPoint.comments" :key="item">
+        <div class="list__item" v-for="item in currentPoint.comments">
+          <span class="item__userName">{{item.userName}}</span>
+          <span class="item__comment">{{item.text}}</span>
+          <span class="item__date">{{item.date|dateFileter}}</span>
         </div>
       </div>
     </div>
@@ -37,7 +41,11 @@
 </template>
 <script>
 import { mapActions, mapState, mapGetters } from "vuex";
-import { requestAuthorInf, requestPointComment } from "../api";
+import {
+  requestAuthorInf,
+  requestPointComment,
+  submitPointComment
+} from "../api";
 
 export default {
   data() {
@@ -58,10 +66,9 @@ export default {
         text: "",
         comments: []
       },
-      edit: true,
-      isLoading: false,
       isShowComment: false,
-      isLoadingComment: false
+      isLoadingComment: false,
+      pointComment: ""
     };
   },
   filters: {
@@ -71,11 +78,6 @@ export default {
     }
   },
   props: ["index"],
-  methods: {
-    comment() {
-      // 获取currentPoint的comment
-    }
-  },
   computed: {
     ...mapState(["points", "user"]),
     likeCount() {
@@ -83,6 +85,7 @@ export default {
     }
   },
   methods: {
+    ...mapActions(["requestAddLike"]),
     async getCurrentAuthor() {
       let result = await requestAuthorInf({
         _id: this.currentPoint.aid
@@ -92,21 +95,64 @@ export default {
       }
     },
     showComment() {
+      if (this.isShowComment || this.isLoadingComment) {
+        this.isShowComment = false;
+        this.isLoadingComment = false;
+        return;
+      }
       // 1. 下载comment
       this.isLoadingComment = true;
       // 开始下载comment
       requestPointComment({
-        _id: this.user._id
+        _id: this.currentPoint._id
       }).then(value => {
-
+        this.isLoadingComment = false;
+        this.isShowComment = true;
+        if (value.status == 200) {
+          // 赋值comment
+          this.currentPoint.comments =
+            value.data.comments == "" ? [] : value.data.comments;
+        }
       });
-      this.isShowComment = true;
     },
-    async getComment() {
-      this.isLoading = true;
-      this.edit = false;
-      let result = await requestPointComment({ _id: this.currentPoint._id });
-      this.currentPoint.comments = result.data;
+    // 上传评论
+    addPointComment() {
+      let newComment = {
+        userName: this.user.userName,
+        text: this.pointComment,
+        date: new Date(),
+        _id: this.currentPoint._id
+      };
+      submitPointComment({
+        userName: this.user.userName,
+        text: this.pointComment,
+        date: new Date(),
+        _id: this.currentPoint._id
+      }).then(value => {
+        if (value.status == 200) {
+          // 上传成功
+          this.$message("上传成功");
+          delete newComment._id;
+          // this.$set(
+          //   this.currentPoint,
+          //   "this.currentPoint.comments",
+          //   this.currentPoint.comments.push(newComment)
+          // );
+          this.currentPoint.comments.push(newComment);
+          // 清空消息
+          this.pointComment = "";
+        } else {
+          console.log(value.status);
+        }
+      });
+    },
+    // 点赞
+    addLike() {
+      this.requestAddLike({
+        _id: this.currentPoint._id,
+        userName: this.user.userName,
+        index: this.index
+      });
     }
   },
   created() {},
@@ -120,6 +166,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
+@import "~element-ui/packages/theme-chalk/src/common/var";
 .SS-cardwrap {
   box-sizing: border-box;
   background-color: rgb(255, 255, 255);
@@ -251,6 +298,16 @@ export default {
       flex-grow: 1;
       margin: 7px 0;
       line-height: 22px;
+
+      .like__count {
+        background-color: $--color-danger;
+        color: white;
+        width: 15px;
+        border-radius: 5px;
+        display: inline-block;
+        line-height: 1.3;
+        font-size: 14spx;
+      }
     }
   }
 
@@ -291,6 +348,16 @@ export default {
     }
 
     .commentloading {
+      color: $--color-danger;
+    }
+
+    .pointcomment__publisher {
+      overflow: hidden;
+    }
+
+    .comment-list {
+      .list__item {
+      }
     }
   }
 }

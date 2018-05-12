@@ -11,3 +11,5 @@ export const INITUSER = 'initUser';
 export const INITUSERList = 'initUserList';
 
 export const INITPOINTCOMMENT = 'initPointComment';
+
+export const ADDLIKE = 'addLike';

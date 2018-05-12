@@ -1,5 +1,5 @@
-import { requestPoints, subimtPoint, requestUserList, requestPointComment } from '../api/index'
-import { INITPOINTS, ADDPOINT, INITUSERList, INITPOINTCOMMENT } from './mutation-types'
+import { requestPoints, subimtPoint, requestUserList, requestPointComment, addLike } from '../api/index'
+import { INITPOINTS, ADDPOINT, INITUSERList, INITPOINTCOMMENT, ADDLIKE } from './mutation-types'
 
 export default {
   async getPointsFromServer({ commit, state }) {
@@ -17,7 +17,7 @@ export default {
     if (result.status == 401) {
       return fasle;
     } else if (result.status == 200) {
-      commit(ADDPOINT, point);
+      commit(ADDPOINT, result.data);
       return true;
     }
   },
@@ -33,6 +33,15 @@ export default {
       return true;
     } else {
       return false;
+    }
+  },
+  async requestAddLike({ commit }, params) {
+    let result = await addLike(params);
+    if (result.status == 200) {
+      commit(ADDLIKE, params);
+      return true;
+    } else {
+      return fasle;
     }
   }
 }
